@@ -24,17 +24,53 @@
 </section>
 <section class="home-section home-2">
     <div class="container">
-            @if(!$negocio->isEmpty())
                 <div class="row">
                     <div class="col-12">
                         <h2>Líneas de negocio</h2>
                     </div>
-                    @foreach ($negocio as $registro_negocio)
+                    
                         <div class="col-md-4">
-                            <a href="{{$registro_negocio->url}}" class="registro_id" id="{{$registro_negocio->id}}" base="{{ url('img/registros') }}/">
-                                <div class="content-registro" style="background-image: url({{ url('img/registros') }}/{{$registro_negocio->imagen}});"></div>
+                            <a href="/linea/hipocaterio" class="registro_id_2" id="" base="">
+                                <div class="content-registro" style="background-image: url({{ url('img/hipotecario.jpg') }}"></div>
                                 <p class="text-center">
-                                    {{$registro_negocio->nombre}}
+                                    Hipotecario
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/linea/empresarial" class="registro_id_2" id="" base="">
+                                <div class="content-registro" style="background-image: url({{ url('img/empresarial.jpg') }}"></div>
+                                <p class="text-center">
+                                    Empresarial
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/linea/seguros" class="registro_id_2" id="" base="">
+                                <div class="content-registro" style="background-image: url({{ url('img/seguros.jpg') }}"></div>
+                                <p class="text-center">
+                                    Seguros
+                                </p>
+                            </a>
+                        </div>
+                    
+    </div>
+</section>
+
+
+</section><section class="home-section home-2">
+    <div class="container">
+            @if(!$franquicias->isEmpty())
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Franquicias</h2>
+                    </div>
+                    @foreach ($franquicias as $registro_franquicias)
+                        <div class="col-md-4">
+                            <a href="{{$registro_franquicias->url}}" class="registro_id" id="{{$registro_franquicias->id}}" base="{{ url('img/registros') }}/">
+                                <div class="content-registro" style="background-image: url({{ url('img/registros') }}/{{$registro_franquicias->imagen}});"></div>
+                                <p class="text-center">
+                                    {{$registro_franquicias->nombre}}
                                 </p>
                             </a>
                         </div>
@@ -115,8 +151,15 @@
         <p class="info"><span>{{$count}}</span> Archivos</p>
         <p class="date">Subido el: <span>{{date_format($registros[0]->created_at,"Y/m/d")}}</span></p>
         <a class="download" href="" files="{{$archivos}}" base="{{ url('archivos') }}/"><i class="fas fa-cloud-download-alt"></i></i> Descargar</a>
-        <a class="share" href=""><i class="fas fa-share"></i> Compartir</a>
-        <a class="copy" href=""><i class="far fa-copy"></i> Copiar vínculo</a>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="fas fa-share"></i>Compartir</button>
+          <div class="dropdown-content">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{$registros[0]->url}}" target="_blank"><i class="fab fa-linkedin-in"></i> Linkedin</a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{$registros[0]->url}}" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <a href="https://twitter.com/intent/tweet?url={{$registros[0]->url}}&text=" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+          </div>
+        </div>
+        <a class="copy" href="{{url('/')}}/archivo/{{$registros[0]->url}}"><i class="far fa-copy"></i> Copiar vínculo</a>
         <a class="delete" href=""><i class="far fa-trash-alt"></i> Eliminar</a>
     @endisset
 
@@ -127,8 +170,15 @@
         <p class="info"><span></span> Archivos</p>
         <p class="date">Subido el: <span></span></p>
         <a class="download" href="" files="[]" base="{{ url('archivos') }}/"><i class="fas fa-cloud-download-alt"></i></i> Descargar</a>
-        <a class="share" href=""><i class="fas fa-share"></i> Compartir</a>
-        <a class="copy" href=""><i class="far fa-copy"></i> Copiar vínculo</a>
+        <div class="dropdown">
+          <button class="dropbtn"><i class="fas fa-share"></i>Compartir</button>
+          <div class="dropdown-content">
+            <a id="linkedin" href="" target="_blank"><i class="fab fa-linkedin-in"></i> Linkedin</a>
+            <a id="facebook" href="" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <a id="twitter" href="" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+          </div>
+        </div>
+        <a class="copy" href="hola" ><i class="far fa-copy"></i> Copiar vínculo</a>
         <a class="delete" href=""><i class="far fa-trash-alt"></i> Eliminar</a>
     @endempty
 </section>

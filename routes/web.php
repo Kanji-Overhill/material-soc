@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home','App\Http\Controllers\RegistrosController@index');
 Route::get('/','App\Http\Controllers\RegistrosController@index');
-Route::post('/registro','App\Http\Controllers\RegistrosController@registro');
+Route::get('/linea/{linea}','App\Http\Controllers\RegistrosController@linea');
+Route::get('/search/{search}','App\Http\Controllers\RegistrosController@search');
+Route::post('/registro','App\Http\Controllers\RegistrosController@registro')->name('registro');
 Route::get('/archivo/{id}','App\Http\Controllers\RegistrosController@archivo');
-Route::post('/insert','App\Http\Controllers\RegistrosController@insertRegistro');
+Route::post('/insert','App\Http\Controllers\RegistrosController@insertRegistro')->name('insert');;

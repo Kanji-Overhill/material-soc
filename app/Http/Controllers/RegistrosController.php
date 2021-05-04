@@ -14,11 +14,26 @@ class RegistrosController extends Controller
     public function index(Request $request)
     {
         $corporativa = Registros::where('categoria','corporativa')->orderBy('id','desc')->get();
-        $negocio = Registros::where('categoria','negocio')->orderBy('id','desc')->get();
+        $hipocaterio = Registros::where('categoria','hipocaterio')->orderBy('id','desc')->get();
+        $empresarial = Registros::where('categoria','empresarial')->orderBy('id','desc')->get();
+        $seguros = Registros::where('categoria','seguros')->orderBy('id','desc')->get();
+        $franquicias = Registros::where('categoria','franquicias')->orderBy('id','desc')->get();
         $herramientas = Registros::where('categoria','herramientas')->orderBy('id','desc')->get();
         $difusion = Registros::where('categoria','difusion')->orderBy('id','desc')->get();
         $eventos = Registros::where('categoria','eventos')->orderBy('id','desc')->get();
-        return view('home',['corporativa'=>$corporativa, 'negocio'=>$negocio, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos]);
+        return view('home',['corporativa'=>$corporativa, 'hipocaterio'=>$hipocaterio, 'empresarial'=>$empresarial, 'seguros'=>$seguros, 'franquicias'=>$franquicias, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos]);
+    }
+
+    public function linea($linea,  Request $request)
+    {
+        $corporativa = Registros::where('categoria',$linea)->orderBy('id','desc')->get();
+        return view('linea',['corporativa'=>$corporativa, 'linea'=>$linea]);
+    }
+
+    public function search($searchTerm, Request $request)
+    {
+        $corporativa = Registros::where('nombre', 'LIKE', "%{$searchTerm}%")->orWhere('categoria', 'LIKE', "%{$searchTerm}%")->orWhere('descripcion', 'LIKE', "%{$searchTerm}%")->get();
+        return view('search',['corporativa'=>$corporativa, 'search'=>$searchTerm]);
     }
 
     public function registro(Request $request)
@@ -29,11 +44,12 @@ class RegistrosController extends Controller
     	$count = count($archivos);
     	return response()->json(['registros' => $registro, 'archivos' => $archivos, 'count' => $count]);
     }
-    public function archivo($id)
+    public function archivo($url)
     {
-        $registro_id = intval($id);
-        $registro = Registros::where('id',$id)->get();
-        $archivos = Archivos::where('registro_id',$id)->get();
+
+        $registro = Registros::where('url',$url)->get();
+     
+        $archivos = Archivos::where('registro_id',$registro[0]->id)->get();
         $count = count($archivos);
 
         $archivos_array = [];
@@ -44,11 +60,14 @@ class RegistrosController extends Controller
         $cadena_equipo = implode(",", $archivos_array );
 
         $corporativa = Registros::where('categoria','corporativa')->orderBy('id','desc')->get();
-        $negocio = Registros::where('categoria','negocio')->orderBy('id','desc')->get();
+        $hipocaterio = Registros::where('categoria','hipocaterio')->orderBy('id','desc')->get();
+        $empresarial = Registros::where('categoria','empresarial')->orderBy('id','desc')->get();
+        $seguros = Registros::where('categoria','seguros')->orderBy('id','desc')->get();
+        $franquicias = Registros::where('categoria','franquicias')->orderBy('id','desc')->get();
         $herramientas = Registros::where('categoria','herramientas')->orderBy('id','desc')->get();
         $difusion = Registros::where('categoria','difusion')->orderBy('id','desc')->get();
         $eventos = Registros::where('categoria','eventos')->orderBy('id','desc')->get();
-        return view('home',['corporativa'=>$corporativa, 'negocio'=>$negocio, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos, 'registros' => $registro, 'archivos' => $cadena_equipo, 'count' => $count]);
+        return view('home',['corporativa'=>$corporativa, 'hipocaterio'=>$hipocaterio, 'empresarial'=>$empresarial, 'seguros'=>$seguros, 'franquicias'=>$franquicias, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos, 'registros' => $registro, 'archivos' => $cadena_equipo, 'count' => $count]);
     }
 
     public function insertRegistro(Request $request)
@@ -59,6 +78,7 @@ class RegistrosController extends Controller
 
         //Clean URL
         $url = Str::slug($nombre, '-');
+        $url = $url."-".rand();
 
         //Upload Imagen Destacada
         $descripcion = $request->descripcion;
@@ -91,10 +111,13 @@ class RegistrosController extends Controller
 
 
         $corporativa = Registros::where('categoria','corporativa')->orderBy('id','desc')->get();
-        $negocio = Registros::where('categoria','negocio')->orderBy('id','desc')->get();
+        $hipocaterio = Registros::where('categoria','hipocaterio')->orderBy('id','desc')->get();
+        $empresarial = Registros::where('categoria','empresarial')->orderBy('id','desc')->get();
+        $seguros = Registros::where('categoria','seguros')->orderBy('id','desc')->get();
+        $franquicias = Registros::where('categoria','franquicias')->orderBy('id','desc')->get();
         $herramientas = Registros::where('categoria','herramientas')->orderBy('id','desc')->get();
         $difusion = Registros::where('categoria','difusion')->orderBy('id','desc')->get();
         $eventos = Registros::where('categoria','eventos')->orderBy('id','desc')->get();
-        return view('home',['corporativa'=>$corporativa, 'negocio'=>$negocio, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos]);
+        return view('home',['corporativa'=>$corporativa,  'hipocaterio'=>$hipocaterio, 'empresarial'=>$empresarial, 'seguros'=>$seguros, 'franquicias'=>$franquicias, 'herramientas'=>$herramientas, 'difusion'=>$difusion, 'eventos'=>$eventos]);
     }
 }

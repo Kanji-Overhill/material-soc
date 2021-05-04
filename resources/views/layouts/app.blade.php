@@ -25,16 +25,16 @@
                 <div class="row">
                     <div class="col-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
-                          <a class="navbar-brand" href="#">
+                          <a class="navbar-brand" href="/">
                             <img src="{{ url('img/soc.jpg') }}" width="150" class="d-inline-block align-top" alt="">
                           </a>
                           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                           </button>
-                          <form class="form-inline ml-auto">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                          <div class="form-inline ml-auto">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" id="search" aria-label="Search">
                             <a data-toggle="modal" data-target="#exampleModal" class="add-button"><i class="fas fa-plus-circle"></i>Agregar Material</a>
-                          </form>
+                          </div>
                         </nav>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
               </div>
               <div class="modal-body">
                 <p>Agrega la siguiente información</p>
-                <form id="multi-file-upload-ajax" method="post" action="/insert" enctype="multipart/form-data">
+                <form id="multi-file-upload-ajax" method="post" action="{{url('insert')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="text" id="name" name="nombre" placeholder="Nombre">
                     <label for="destacada">Imagen destacada</label>
@@ -65,7 +65,10 @@
                     <select name="categoria" id="category">
                         <option value="" selected hidden>Categoría</option>
                         <option value="corporativa">Imagen corporativa</option>
-                        <option value="negocio">Líneas de negocio</option>
+                        <option value="hipocaterio">Hipotecario</option>
+                        <option value="empresarial">Empresarial</option>
+                        <option value="seguros">Seguros</option>
+                        <option value="franquicias">Franquicias</option>
                         <option value="herramientas">Herramientas</option>
                         <option value="corporativa">Contenido de difusión</option>
                         <option value="eventos">Eventos</option>
@@ -96,4 +99,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="{{ url('js/main.js') }}"></script>
+    <script>
+        $('#search').keypress(function (e) {
+         var key = e.which;
+         if(key == 13)  // the enter key code
+          {
+            alert("hola");
+          }
+        }); 
+    $(".registro_id").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var base = $(this).attr('base');
+        $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "{{url('registro')}}",
+                type: 'POST',
+                data: {
+                    id: id,
+                },
+                success: function(response){
+                    var date = formatDate(response['registros'][0].created_at);
+                    var archivos = [];
+                    $.each(response['archivos'], function(index, val) {
+                        archivos.push(val.url);
+                    });
+                    $(".title").html(response['registros'][0].nombre);
+                    $(".image_registro").attr("src",base+response['registros'][0].imagen);
+                    $(".description").html(response['registros'][0].descripcion);
+                    $("#facebook").attr("href","https://www.facebook.com/sharer/sharer.php?u=https://socasesores.com/material/public/archivo/"+response['registros'][0].url);
+                    $("#twitter").attr("href","https://twitter.com/intent/tweet?url=https://socasesores.com/material/public/"+response['registros'][0].url+"&text=");
+                    $("#linkedin").attr("href","https://www.linkedin.com/shareArticle?mini=true&url=https://socasesores.com/material/public/archivo/"+response['registros'][0].url);
+                    $(".copy").attr("href","https://socasesores.com/material/public/"+response['registros'][0].url);
+                    $(".date span").html(date);
+                    $(".info span").html(response['count']);
+                    $(".download").attr("files",archivos);
+                    $(".registro-section").removeClass('hide');
+                }
+        });
+    });
+        function formatDate(date) {
+         var d = new Date(date),
+             month = '' + (d.getMonth() + 1),
+             day = '' + d.getDate(),
+             year = d.getFullYear();
+
+         if (month.length < 2) month = '0' + month;
+         if (day.length < 2) day = '0' + day;
+
+         return [year, month, day].join('-');
+     }
+    </script>
 </html>

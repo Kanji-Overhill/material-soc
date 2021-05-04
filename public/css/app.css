@@ -10,7 +10,7 @@ h2{
 	margin-bottom: 2rem;
 }
 .home-section{
-	padding-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 .home-section .container .row{
 	border-bottom: 2px solid #f3f3f3;
@@ -72,6 +72,7 @@ h2{
 	padding: 10px;
 	display: block;
 	color: #fff;
+	margin-bottom: 1rem;
 }
 .add-button{
 	background-color: #4AA84F;
@@ -147,3 +148,65 @@ button.save{
     border: 0;
 }
 /*App Styles*/
+.dropbtn {
+  border-radius: 50px;
+	text-align: center;
+	padding: 10px;
+	color: #015694;
+	border: 1px solid #ABB4B6;
+	margin-bottom: 1rem;
+	display: block;
+	cursor: pointer;
+	width: 100%;
+}
+.dropbtn:hover{
+	color: #fff
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+     position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    width: 100%;
+    background: #F1F2F7;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+   border-radius: 50px;
+	text-align: center;
+	padding: 10px;
+	color: #015694;
+	border: 1px solid #ABB4B6;
+	margin-bottom: 1rem;
+	display: block;
+	cursor: pointer;
+	width: 100%;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #3e8e41; color: #fff}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+  color: #fff;
+}
+.dropdown .dropbtn i{
+	margin-right: 10px;
+}
